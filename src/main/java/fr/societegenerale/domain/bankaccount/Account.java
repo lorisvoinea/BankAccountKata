@@ -32,7 +32,7 @@ public class Account {
   }
 
   public void printStatement() {
-    //TODO
+    statement.printStatement(balance);
   }
 
   public void showStatement() {
