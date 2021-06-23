@@ -18,7 +18,10 @@ public class Account {
   }
 
   public void deposit(BigDecimal amount) {
-    //TODO
+    if (amount == null)
+      amount = BigDecimal.ZERO;
+    balance = balance.add(amount.abs());
+    statement.addStatementLine(balance, amount, new Date());
   }
 
   public void withdraw(BigDecimal amount) {
