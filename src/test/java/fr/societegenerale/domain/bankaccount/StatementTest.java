@@ -112,6 +112,34 @@ public class StatementTest {
     assertEquals(account.getStatement().getScreen().getShownStr(), strBuilder.toString());
   }
 
+  @Test
+  @DisplayName("handle add statement")
+  public void should_get_all_statement() {
+
+    Statement statement = account.getStatement();
+
+    statement.addStatementLine(new BigDecimal(10000), new BigDecimal(10000), new Date());
+    statement.addStatementLine(new BigDecimal(9000), new BigDecimal(-1000), new Date());
+    statement.addStatementLine(new BigDecimal(9200), new BigDecimal(200), new Date());
+
+    Iterator<StatementLine> statementLines = statement.getStatementLines().iterator();
+
+    StatementLine statementLine = statementLines.next();
+    assertEquals(statementLine.getAmount(), new BigDecimal(10000));
+    assertEquals(statementLine.getBalance(), new BigDecimal(10000));
+    assertEquals(convertDateToString(statementLine.getDate()), convertDateToString(new Date()));
+
+    statementLine = statementLines.next();
+    assertEquals(statementLine.getAmount(), new BigDecimal(-1000));
+    assertEquals(statementLine.getBalance(), new BigDecimal(9000));
+    assertEquals(convertDateToString(statementLine.getDate()), convertDateToString(new Date()));
+
+    statementLine = statementLines.next();
+    assertEquals(statementLine.getAmount(), new BigDecimal(200));
+    assertEquals(statementLine.getBalance(), new BigDecimal(9200));
+    assertEquals(convertDateToString(statementLine.getDate()), convertDateToString(new Date()));
+  }
+
   private String convertDateToString(final Date date) {
     final DateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE);
     return dateFormat.format(date);
