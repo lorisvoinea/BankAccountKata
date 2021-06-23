@@ -71,6 +71,47 @@ public class StatementTest {
 
   }
 
+  @Test
+  @DisplayName("handle show statement")
+  public void should_show_all_statement() {
+
+    account.deposit(new BigDecimal(10000));
+    account.withdraw(new BigDecimal(1000));
+    account.deposit(new BigDecimal(200));
+
+    account.showStatement();
+
+    Iterator<StatementLine> it = account.getStatement().getStatementLines().iterator();
+
+    StringBuilder strBuilder = new StringBuilder("-----Show------");
+    strBuilder.append("\n");
+    strBuilder.append(HEADER);
+    strBuilder.append("\n");
+
+    StatementLine statementLine = it.next();
+    strBuilder.append(convertDateToString(statementLine.getDate())).append(SEPARATOR).append("10000").append(SEPARATOR)
+      .append(SEPARATOR).append("10000");
+    strBuilder.append("\n");
+
+    statementLine = it.next();
+    strBuilder.append(convertDateToString(statementLine.getDate())).append(SEPARATOR).append(SEPARATOR).append("1000")
+      .append(SEPARATOR).append("9000");
+    strBuilder.append("\n");
+
+    statementLine = it.next();
+    strBuilder.append(convertDateToString(statementLine.getDate())).append(SEPARATOR).append("200").append(SEPARATOR)
+      .append(SEPARATOR).append("9200");
+    strBuilder.append("\n");
+
+    strBuilder.append(TOTAL_BALANCE_TEXT).append("9200");
+    strBuilder.append("\n");
+
+    strBuilder.append("-----End show------");
+    strBuilder.append("\n");
+
+    assertEquals(account.getStatement().getScreen().getShownStr(), strBuilder.toString());
+  }
+
   private String convertDateToString(final Date date) {
     final DateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE);
     return dateFormat.format(date);

@@ -13,6 +13,8 @@ public class Statement {
 
   private final Printer printer = new Printer();
 
+  private final Screen screen = new Screen();
+
   private static final String HEADER = "DATE|CREDIT|DEBIT|BALANCE";
 
   private static final String TOTAL_BALANCE_TEXT = "TOTAL BALANCE :";
@@ -34,8 +36,16 @@ public class Statement {
     return printer;
   }
 
+  public Screen getScreen() {
+    return screen;
+  }
+
   public void printStatement(final BigDecimal balance) {
     printer.print(buildStatement(balance));
+  }
+
+  public void showStatement(final BigDecimal balance) {
+    screen.show(buildStatement(balance));
   }
 
   private LinkedList<String> buildStatement(final BigDecimal balance) {

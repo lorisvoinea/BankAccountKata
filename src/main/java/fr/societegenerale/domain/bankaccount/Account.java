@@ -36,7 +36,7 @@ public class Account {
   }
 
   public void showStatement() {
-    //TODO
+    statement.showStatement(balance);
   }
 
 }
